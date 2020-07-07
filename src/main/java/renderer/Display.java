@@ -1,72 +1,52 @@
 package renderer;
 
-import config.Constants;
-import renderer.entity.Renderable;
-import renderer.entity.SpatialPoint;
-import renderer.shapes.Tetrahedron;
+import config.Configuration;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Display extends Canvas implements Runnable {
+public class Display implements Runnable {
 
-    private Thread thread;
+    private Canvas canvas;
     private JFrame frame;
     private final String title = "3D Renderer";
     private boolean running = false;
 
-    //speed related
+    //speed control
     private long timeStamp;
-    private final long delta = 17;
-
-    private List<Renderable> renderableList;
-
+    private long delta;
     private int frameCount;
     private long frameUpdateStamp;
 
+    // renderer
+    private Renderer renderer;
+
+
+
     public Display() {
-        this.renderableList = new ArrayList<>();
+        this.canvas = new Canvas();
+        this.renderer = new Renderer();
+        this.delta = 1000 / Configuration.DESIRED_FPS;
         this.frame = new JFrame();
         this.frameUpdateStamp = System.currentTimeMillis();
-
         init();
     }
 
-
-    public synchronized void start() {
-        running = true;
-        thread = new Thread(this);
-        thread.start();
-    }
-
-    public synchronized void stop() throws InterruptedException {
-        running = false;
-        this.thread.join();
-    }
-
     private void init() {
-        Dimension size = new Dimension(Constants.WIDTH, Constants.HEIGHT);
-        this.setPreferredSize(size);
+        Dimension size = new Dimension(Configuration.WIDTH, Configuration.HEIGHT);
+        canvas.setPreferredSize(size);
 
         //frame
         frame.setTitle(title);
-        frame.add(this);
+        frame.add(canvas);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
-
-        // add renderables
-        renderableList.add(
-            new Tetrahedron(Color.YELLOW, 200,new SpatialPoint(0, 0, 0))
-        );
-
     }
 
     public void run() {
-
+        running = true;
         while (running) {
             timeStamp = System.currentTimeMillis();
 
@@ -75,7 +55,6 @@ public class Display extends Canvas implements Runnable {
 
             speedControl();
         }
-
     }
 
     private void speedControl() {
@@ -101,27 +80,20 @@ public class Display extends Canvas implements Runnable {
     }
 
     private void render() {
-        BufferStrategy bs = this.getBufferStrategy();
+        BufferStrategy bs = canvas.getBufferStrategy();
         if (bs == null) {
-            this.createBufferStrategy(3);
+            canvas.createBufferStrategy(3);
             return;
         }
 
         Graphics g = bs.getDrawGraphics();
 
-        // model graphics output
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+        renderer.render(g);
 
-        for (Renderable renderable : renderableList) {
-            renderable.render(g);
-        }
-
-        g.dispose();
         bs.show();
     }
 
     private void update() {
-        renderableList.get(0).rotate(true, 1, 1, 1);
+        renderer.update();
     }
 }

@@ -1,22 +1,20 @@
 package renderer.util;
 
-import config.Constants;
+import config.Configuration;
 import renderer.entity.SpatialPoint;
 
 import java.awt.*;
 
-public class PointConverter {
-
-    private static final double scale = 1;
+public class PointManager {
 
     public static Point get2DPointFromSpatialPoint(SpatialPoint sp) {
-        double x3d = sp.y * scale;
-        double y3d = sp.z * scale;
-        double depth = sp.x * scale;
+        double x3d = sp.y * Configuration.SCALE;
+        double y3d = sp.z * Configuration.SCALE;
+        double depth = sp.x * Configuration.SCALE;
         double[] newVal = scale(x3d, y3d, depth);
 
-        int x2d = (int) ((Constants.WIDTH >> 1) + newVal[0]);
-        int y2d = (int) ((Constants.HEIGHT >> 1) - newVal[1]);
+        int x2d = (int) ((Configuration.WIDTH >> 1) + newVal[0]);
+        int y2d = (int) ((Configuration.HEIGHT >> 1) - newVal[1]);
 
         return new Point(x2d, y2d);
     }
@@ -24,8 +22,8 @@ public class PointConverter {
     public static double[] scale(double x3d, double y3d, double depth) {
         double dist = Math.sqrt(x3d * x3d + y3d * y3d);
         double theta = Math.atan2(y3d, x3d);
-        double depth2 = 15 - depth;
-        double localScale = Math.abs(1400 / (depth2 + 1400));
+        double depth2 = 20 - depth;
+        double localScale = Math.abs(Configuration.LOCAL_SCALE_FACTOR / (depth2 + Configuration.LOCAL_SCALE_FACTOR));
         dist *= localScale;
 
         double[] values = new double[2];

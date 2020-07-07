@@ -22,21 +22,21 @@ public class Tetrahedron implements Renderable {
             return;
         }
 
-        SpatialPoint sp1 = new SpatialPoint(size >> 1, -size >> 1, -size >> 1);
-        SpatialPoint sp2 = new SpatialPoint(size >> 1, size >> 1, -size >> 1);
-        SpatialPoint sp3 = new SpatialPoint(size >> 1, size >> 1, size >> 1);
-        SpatialPoint sp4 = new SpatialPoint(size >> 1, -size >> 1, size >> 1);
-        SpatialPoint sp5 = new SpatialPoint(-size >> 1, -size >> 1, -size >> 1);
-        SpatialPoint sp6 = new SpatialPoint(-size >> 1, size >> 1, -size >> 1);
-        SpatialPoint sp7 = new SpatialPoint(-size >> 1, size >> 1, size >> 1);
-        SpatialPoint sp8 = new SpatialPoint(-size >> 1, -size >> 1, size >> 1);
+        SpatialPoint sp1 = new SpatialPoint((size >> 1) + origin.x, (-size >> 1) + origin.y, (-size >> 1) + origin.z);
+        SpatialPoint sp2 = new SpatialPoint((size >> 1) + origin.x, (size >> 1) + origin.y, (-size >> 1) + origin.z);
+        SpatialPoint sp3 = new SpatialPoint((size >> 1) + origin.x, (size >> 1) + origin.y, (size >> 1) + origin.z);
+        SpatialPoint sp4 = new SpatialPoint((size >> 1) + origin.x, (-size >> 1) + origin.y, (size >> 1) + origin.z);
+        SpatialPoint sp5 = new SpatialPoint((-size >> 1) + origin.x, (-size >> 1) + origin.y, (-size >> 1) + origin.z);
+        SpatialPoint sp6 = new SpatialPoint((-size >> 1) + origin.x, (size >> 1) + origin.y, (-size >> 1) + origin.z);
+        SpatialPoint sp7 = new SpatialPoint((-size >> 1) + origin.x, (size >> 1) + origin.y, (size >> 1) + origin.z);
+        SpatialPoint sp8 = new SpatialPoint((-size >> 1) + origin.x, (-size >> 1) + origin.y, (size >> 1) + origin.z);
 
         polygons[0] = new SpatialPolygon(Color.MAGENTA, sp1, sp2, sp3, sp4);
         polygons[1] = new SpatialPolygon(Color.GREEN, sp5, sp6, sp7, sp8);
         polygons[2] = new SpatialPolygon(Color.CYAN, sp1, sp2, sp6, sp5);
         polygons[3] = new SpatialPolygon(Color.YELLOW, sp1, sp5, sp8, sp4);
         polygons[4] = new SpatialPolygon(Color.WHITE, sp2, sp6, sp7, sp3);
-        polygons[5] = new SpatialPolygon(Color.BLUE, sp4, sp3, sp7, sp8);
+        polygons[5] = new SpatialPolygon(Color.RED, sp4, sp3, sp7, sp8);
     }
 
     public void rotate(boolean cw, double xDeg, double yDeg, double zDeg) {
@@ -55,6 +55,6 @@ public class Tetrahedron implements Renderable {
     }
 
     public void sortPolygons() {
-
+        polygons = SpatialPolygon.sortPolygons(polygons);
     }
 }
