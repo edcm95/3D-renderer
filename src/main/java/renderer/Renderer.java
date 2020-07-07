@@ -1,8 +1,8 @@
 package renderer;
 
 import config.Configuration;
-import renderer.entity.Renderable;
-import renderer.entity.SpatialPoint;
+import renderer.entities.Renderable;
+import renderer.entities.SpatialPoint;
 import renderer.shapes.Tetrahedron;
 
 import java.awt.*;
@@ -21,15 +21,15 @@ public class Renderer {
     private void init() {
         // add renderables
         renderableList.add(
-                new Tetrahedron(Color.BLACK, 200, new SpatialPoint(200, 200, 200))
+                new Tetrahedron(200, new SpatialPoint(200, 200, 200))
         );
 
         renderableList.add(
-                new Tetrahedron(Color.BLACK, 200, new SpatialPoint(-200, -200, -200))
+                new Tetrahedron(200, new SpatialPoint(-200, -200, -200))
         );
 
         renderableList.add(
-                new Tetrahedron(Color.BLACK, 100, new SpatialPoint(0, 0, 0))
+                new Tetrahedron(100, new SpatialPoint(0, 0, 0))
         );
     }
 

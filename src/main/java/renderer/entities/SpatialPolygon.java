@@ -1,4 +1,4 @@
-package renderer.entity;
+package renderer.entities;
 
 import renderer.util.PointManager;
 

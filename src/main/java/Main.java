@@ -1,4 +1,5 @@
-import renderer.Display;
+import renderer.Output;
+import renderer.Renderer;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,8 +10,9 @@ public class Main {
 
         ExecutorService threadPool = Executors.newSingleThreadExecutor();
 
-        Display display = new Display();
-        threadPool.execute(display);
+        Renderer renderer = new Renderer();
+        Output output = new Output(renderer);
+        threadPool.execute(output);
 
         System.out.println("Started");
     }

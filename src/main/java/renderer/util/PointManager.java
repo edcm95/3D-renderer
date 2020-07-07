@@ -1,8 +1,7 @@
 package renderer.util;
 
 import config.Configuration;
-import renderer.entity.SpatialPoint;
-
+import renderer.entities.SpatialPoint;
 import java.awt.*;
 
 public class PointManager {

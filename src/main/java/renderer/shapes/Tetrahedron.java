@@ -1,27 +1,19 @@
 package renderer.shapes;
 
-import renderer.entity.Renderable;
-import renderer.entity.SpatialPoint;
-import renderer.entity.SpatialPolygon;
+import renderer.entities.SpatialPoint;
+import renderer.entities.SpatialPolygon;
 
 import java.awt.*;
 
-public class Tetrahedron implements Renderable {
+public class Tetrahedron extends Shape {
 
-    private SpatialPolygon[] polygons;
-    private Color color;
 
-    public Tetrahedron(Color color, int size, SpatialPoint origin) {
+    public Tetrahedron(int size, SpatialPoint origin) {
         this.polygons = new SpatialPolygon[6];
-        this.color = color;
         setupPolygons(size, origin);
     }
 
-    private void setupPolygons(int size, SpatialPoint origin) {
-        if (color == null) {
-            return;
-        }
-
+    protected void setupPolygons(int size, SpatialPoint origin) {
         SpatialPoint sp1 = new SpatialPoint((size >> 1) + origin.x, (-size >> 1) + origin.y, (-size >> 1) + origin.z);
         SpatialPoint sp2 = new SpatialPoint((size >> 1) + origin.x, (size >> 1) + origin.y, (-size >> 1) + origin.z);
         SpatialPoint sp3 = new SpatialPoint((size >> 1) + origin.x, (size >> 1) + origin.y, (size >> 1) + origin.z);
@@ -37,24 +29,5 @@ public class Tetrahedron implements Renderable {
         polygons[3] = new SpatialPolygon(Color.YELLOW, sp1, sp5, sp8, sp4);
         polygons[4] = new SpatialPolygon(Color.WHITE, sp2, sp6, sp7, sp3);
         polygons[5] = new SpatialPolygon(Color.RED, sp4, sp3, sp7, sp8);
-    }
-
-    public void rotate(boolean cw, double xDeg, double yDeg, double zDeg) {
-        for (SpatialPolygon sp : polygons) {
-            sp.rotate(cw, xDeg, yDeg, zDeg);
-        }
-        sortPolygons();
-    }
-
-
-    @Override
-    public void render(Graphics g) {
-        for (SpatialPolygon sp : polygons) {
-            sp.render(g);
-        }
-    }
-
-    public void sortPolygons() {
-        polygons = SpatialPolygon.sortPolygons(polygons);
     }
 }

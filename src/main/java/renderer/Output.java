@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class Display implements Runnable {
+public class Output implements Runnable {
 
     private Canvas canvas;
     private JFrame frame;
@@ -23,9 +23,9 @@ public class Display implements Runnable {
 
 
 
-    public Display() {
+    public Output(Renderer renderer) {
         this.canvas = new Canvas();
-        this.renderer = new Renderer();
+        this.renderer = renderer;
         this.delta = 1000 / Configuration.DESIRED_FPS;
         this.frame = new JFrame();
         this.frameUpdateStamp = System.currentTimeMillis();
@@ -43,6 +43,9 @@ public class Display implements Runnable {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
+
+
+        canvas.createBufferStrategy(3);
     }
 
     public void run() {
@@ -81,11 +84,6 @@ public class Display implements Runnable {
 
     private void render() {
         BufferStrategy bs = canvas.getBufferStrategy();
-        if (bs == null) {
-            canvas.createBufferStrategy(3);
-            return;
-        }
-
         Graphics g = bs.getDrawGraphics();
 
         renderer.render(g);
