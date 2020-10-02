@@ -48,17 +48,18 @@ public class SpatialPolygon implements Renderable {
 
     public static SpatialPolygon[] sortPolygons(SpatialPolygon[] input) {
         List<SpatialPolygon> list = Arrays.asList(input);
-        list.sort((t0, t1) -> (int) Math.round(t0.getMaximumX() - t1.getMaximumX()));
+        list.sort((t0, t1) -> {
+            int diff = t0.getAvgX() - t1.getAvgX();
+            return diff;
+        });
         return list.toArray(new SpatialPolygon[input.length]);
     }
 
-    private double getMaximumX() {
-        double maxX = points[0].x;
+    private int getAvgX() {
+        int sum = 0;
         for (SpatialPoint point : points) {
-            if (point.x > maxX) {
-                maxX = point.x;
-            }
+            sum += point.x;
         }
-        return maxX;
+        return sum / points.length;
     }
 }

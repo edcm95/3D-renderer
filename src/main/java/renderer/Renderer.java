@@ -35,7 +35,7 @@ public class Renderer {
 
     public void render(Graphics g) {
         // model graphics output
-        g.setColor(Color.BLACK);
+        g.setColor(Color.BLUE);
         g.fillRect(0, 0, Configuration.WIDTH, Configuration.HEIGHT);
 
         for (Renderable renderable : renderableList) {
