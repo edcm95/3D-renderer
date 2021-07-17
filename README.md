@@ -3,7 +3,8 @@ This is a small education project I took in hand to learn more about 3D renderin
 
 ## What it does?
 
-Basically, it just spins 3 tetrahedrons on screen at a relatively constant framerate.
+Basically, it just spins 3 tetrahedrons on screen at a relatively constant framerate. Like this:
+![alt text](https://github.com/edcm95/3D-renderer/blob/master/demo.png?raw=true)
 
 ## How does it work?
 
